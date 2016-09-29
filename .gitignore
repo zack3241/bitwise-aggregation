@@ -1,0 +1,13 @@
+*.pyc
+*#*
+*.DS_STORE
+*.log
+dist/*
+*egg*
+build/
+/.Python
+/bin/
+/include/
+/lib/
+/pip-selfcheck.json
+.tox/

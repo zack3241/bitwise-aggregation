@@ -1,24 +1,20 @@
 import os
 from setuptools import setup
 
-# Utility function to read the README file.
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
-
 setup(
-    name = "bitwise-aggregation",
-    version = "0.0.1",
+    name = "bitwiseaggregation",
+    version = "1.0.0a1",
     author = "Zachary Lawson",
     author_email = "zmjlawson@gmail.com",
-    description = ("A aggregation strategy for data when aggregate datasets cannot be properly indexed."),
-    license = "BSD",
+    description = ("A aggregation strategy for data_samples when aggregate datasets cannot be properly indexed."),
+    license = "MIT",
     keywords = "spark aggregation",
-    url = "http://packages.python.org/an_example_pypi_project",
-    packages=['bitwise-aggregation', 'tests'],
-    long_description=read('README.md'),
+    url = "https://github.com/zack3241/bitwise-aggregation",
+    packages=['bitwiseaggregation'],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Topic :: Database",
         "License :: MIT License",
+        'Programming Language :: Python :: 2.7',
     ],
 )

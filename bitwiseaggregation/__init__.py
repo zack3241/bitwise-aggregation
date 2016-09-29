@@ -1,0 +1,1 @@
+from bitwiseaggregator import BitwiseSparkAggregator

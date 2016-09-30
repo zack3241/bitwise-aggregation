@@ -23,20 +23,20 @@ This package requires that [Spark 2.0.0](http://spark.apache.org/docs/latest/ind
 ## Installation
 To install bitwiseaggregation, cd to the bitwise-aggergation and run
 the install command
-'''
+```
 sudo python setup.py install
-'''
+```
 
 ### Installing Spark
 Spark 2.0.0 is a required dependency for this package to work. To
-install Spark [follow the instructions here]http://spark.apache.org/docs/latest/index.html.
+install Spark [follow the instructions here](http://spark.apache.org/docs/latest/index).
 
 ## Usage
 To use this package simply create an instance of BitwiseSparkAggregator
 with the columns you with to aggregate upon (aggs) and the columns you
 wish to aggregate upon not using the bitwise switching
 (partition_columns):
-'''
+```
 agg_columns = [
     "score_phrase",
     "platform",
@@ -48,11 +48,11 @@ partition_columns = [
     "release_month"
 ]
 bit_agg = BitwiseSparkAggregator(agg_columns, partition_columns)
-'''
+```
 
 You can then run the aggregation on a dataframe to create a dataframe to
 access using pyspark or write the data to an directory as a file:
-'''
+```
 df = spark.read.csv(
             inputfile, header=True, mode="DROPMALFORMED"
     )
@@ -61,7 +61,7 @@ bit_agg_df = bit_agg.get_bitwise_aggregated_df(df, aggs)
 
 # To aggregate the data into a csv
 bit_agg.bitwise_aggregate_to_dir(df, aggs, outdir)
-'''
+```
 
 You can specify additional parameters when writing the data to a
 file or files such as:

@@ -1,5 +1,6 @@
 # This is a sample script showing how one can use the BitwiseSparkAggregator Class
-# Here is a sample cmd for running the script: spark-submit --py-files sample_csv_script.py -i ign.csv -o data/
+# Here is a sample cmd for running the script:
+# spark-submit --py-files sample_csv_script.py -i data_samples/ign.csv -o data/
 from bitwiseaggregation import BitwiseSparkAggregator
 from pyspark.sql import SparkSession
 import sys

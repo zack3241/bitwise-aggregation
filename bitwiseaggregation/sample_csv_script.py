@@ -1,5 +1,7 @@
+# This is a sample script showing how one can use the BitwiseSparkAggregator Class
 # spark-submit --py-files sample_csv_script.py -i ign.csv -o ~/
 from bitwiseaggregation import BitwiseSparkAggregator
+from pyspark.sql import SparkSession
 import sys
 import getopt
 import os
@@ -38,7 +40,7 @@ def main(args, spark):
         "score":"mean",
     }
 
-    outdir =os.getcwd()
+    outdir = os.path.join(os.getcwd(),"data")
 
     bit_agg = BitwiseSparkAggregator(agg_columns, partition_columns)
     bit_agg.bitwise_aggregate_to_dir(df, aggs, outdir)
@@ -48,4 +50,5 @@ if __name__ == "__main__":
         .builder\
         .appName("bitwise_aggregation_case_study")\
         .getOrCreate()
+
     main(sys.argv[1:], spark)

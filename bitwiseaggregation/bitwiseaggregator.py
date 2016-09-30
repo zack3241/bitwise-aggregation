@@ -135,8 +135,6 @@ class BitwiseSparkAggregator:
             raise TypeError('%s is %s. coalesce_num must be an instance of int' % (coalesce_num, type(coalesce_num)))
         if not isinstance(batch_num, int) and batch_num:
             raise TypeError('%s is %s. batch_num must be an instance of int' % (batch_num, type(batch_num)))
-        if not isinstance(filename, str):
-            raise TypeError('%s is %s. filename must be an instance of str' % (filename, type(filename)))
 
         # Get the aggregates to run for the instance's bitwise columns
         aggregates = self.get_bitwise_aggregates()
@@ -183,6 +181,16 @@ class BitwiseSparkAggregator:
             # Test if the batch of aggregates is ready to write
             if count % batch_num == 0:
 
+                # This column ranaming for parquet writing. "(" and ")" values are not allowed in column names.
+                old_column_names = batch_data.schema.names
+                new_column_names = []
+                for c in old_column_names:
+                    new_column_names.append(c.replace(")", "").replace("(","_"))
+
+                batch_data = reduce(lambda batch_data, idx: batch_data\
+                                    .withColumnRenamed(old_column_names[idx], new_column_names[idx]),
+                                    xrange(len(old_column_names)), batch_data)
+
                 # For the first write, the data in the outdir is overwritten.
                 # Subsequent writes are appended to the previous writes.
                 if overwrite:
@@ -214,10 +222,25 @@ class BitwiseSparkAggregator:
 
         # If aggregates remain after the batch processing, write the remaining data.
         if batch_data:
-            batch_data.coalesce(coalesce_num)\
-                .write.format(out_format)\
-                .save(outdir
-                      ,mode='append')
+            # This column ranaming for parquet writing. "(" and ")" values are not allowed in column names.
+            old_column_names = batch_data.schema.names
+            new_column_names = []
+            for c in old_column_names:
+                new_column_names.append(c.replace(")", "").replace("(","_"))
+
+            batch_data = reduce(lambda batch_data, idx: batch_data\
+                                .withColumnRenamed(old_column_names[idx], new_column_names[idx]),
+                                xrange(len(old_column_names)), batch_data)
+            if coalesce_num:
+                batch_data.coalesce(coalesce_num)\
+                    .write.format(out_format)\
+                    .save(outdir
+                          ,mode='append')
+            else:
+                batch_data\
+                    .write.format(out_format)\
+                    .save(outdir
+                          ,mode='append')
 
         # Write out the field names for csv's so that the files aren't polluted with header rows.
         if out_format == "csv":

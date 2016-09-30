@@ -14,7 +14,8 @@ these large number of aggregations can be preformed very quickly, much
 faster than traditional means.
 
 *This strategy should be used when attempting to index the fact data
-across is either too costly, not feasible, or not possible.*
+across the aggregate fields is either too costly, not feasible, 
+or not possible.*
 
 ## Non-Python Dependencies
 This package requires that [Spark 2.0.0](http://spark.apache.org/docs/latest/index.html) is installed.
@@ -32,6 +33,8 @@ Spark 2.0.0 is a required dependency for this package to work. To
 install Spark [follow the instructions here](http://spark.apache.org/docs/latest/index).
 
 ## Usage
+*This package can be used in a script sent to spark-submit
+OR in the pyspark interaction shell.*
 To use this package simply create an instance of BitwiseSparkAggregator
 with the columns you with to aggregate upon (aggs) and the columns you
 wish to aggregate upon not using the bitwise switching

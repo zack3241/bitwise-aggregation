@@ -9,9 +9,10 @@ down to the relevant dimensions you're interested in without
 compromising on the aggregated dimensions themselves. It does this by
 performing all the possible permutations of aggregation for the
 dimensions provided by using bitwise comparisons to turn fields either
-"on" or "off". Then, by leveraging Spark's ability to cache dataframes,
+"on" or "off". Then, by leveraging Spark's ability to cache DataFrames,
 these large number of aggregations can be preformed very quickly, much
-faster than traditional means.
+faster than traditional means. The created data is then preprocessed,
+more compressed, and ready for access.
 
 *This strategy should be used when attempting to index the fact data
 across the aggregate fields is either too costly, not feasible, 
@@ -19,7 +20,6 @@ or not possible.*
 
 ## Non-Python Dependencies
 This package requires that [Spark 2.0.0](http://spark.apache.org/docs/latest/index.html) is installed.
-
 
 ## Installation
 To install bitwiseaggregation, cd to the bitwise-aggergation and run
@@ -35,6 +35,7 @@ install Spark [follow the instructions here](http://spark.apache.org/docs/latest
 ## Usage
 *This package can be used in a script sent to spark-submit
 OR in the pyspark interaction shell.*
+
 To use this package simply create an instance of BitwiseSparkAggregator
 with the columns you with to aggregate upon (aggs) and the columns you
 wish to aggregate upon not using the bitwise switching
@@ -68,16 +69,18 @@ bit_agg.bitwise_aggregate_to_dir(df, aggs, outdir)
 
 You can specify additional parameters when writing the data to a
 file or files such as:
-* out_format: This sets the format for the files being written.
-** (Default: "csv")
-* coalesce_num: This sets the number of files written out per write.
-** (Default: 1)
+* out_format: This sets the format for the files being written. (Default: "csv")
+* coalesce_num: This sets the number of files written out per write. (Default: 1)
 * batch_num:  This sets the number of aggregates to contain in a write
-for the data.
-** (Default: All the Aggregates)
+for the data. (Default: All the Aggregates in a Single Write)
 
 ## Things to Note
-
+### Test Data Set
+The included ign.csv dataset was created by Eric GrinStein and is 
+available via Kaggle [here](https://www.kaggle.com/egrinstein/20-years-of-games).
+We would like to call out that this dataset isn't ideal for this
+strategy given it's very small size. This strategy is much more
+effective on compression when using much larger datasets. 
 ### Unsupported Spark SQL Functions
 Currently, pyspark.sql.agg does not support all the aggregate
 functions available in pyspark to be parsed into expressions. In order

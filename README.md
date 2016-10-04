@@ -1,7 +1,7 @@
 # bitwise-aggregation
 
 This package is built to allow users to quickly aggregate fact data into
-a set of aggregate fact data leveraging Spark's in-memory caching. This
+a set of aggregate data leveraging Spark's in-memory caching. This
 is useful when dealing with large amounts of data in a large fact table
 or file which compressing to aggregates will speed up data exploration
 or processing. Doing bitwise aggregation allows you to compress data
@@ -10,7 +10,7 @@ compromising on the aggregated dimensions themselves. It does this by
 performing all the possible permutations of aggregation for the
 dimensions provided by using bitwise comparisons to turn fields either
 "on" or "off". Then, by leveraging Spark's ability to cache DataFrames,
-these large number of aggregations can be preformed very quickly, much
+these large number of aggregations can be performed very quickly, much
 faster than traditional means. The created data is then preprocessed,
 more compressed, and ready for access.
 
@@ -79,7 +79,7 @@ for the data. (Default: All the Aggregates in a Single Write)
 The included ign.csv dataset was created by Eric GrinStein and is 
 available via Kaggle [here](https://www.kaggle.com/egrinstein/20-years-of-games).
 We would like to call out that this dataset isn't ideal for this
-strategy given it's very small size. This strategy is much more
+strategy given its very small size. This strategy is much more
 effective on compression when using much larger datasets. 
 ### Unsupported Spark SQL Functions
 Currently, pyspark.sql.agg does not support all the aggregate
